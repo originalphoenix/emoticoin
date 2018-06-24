@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CoinCard from './components/Card';
+import Nav from './components/nav';
 
-const CoinData = 'https://min-api.cryptocompare.com/data/pricemultifull?';
+const CoinAPI = 'http://localhost:5000/coins';
 
-const CoinData_Query = 'fsyms=BTC,ETH,LTC&tsyms=USD';
+function openNav() {
+  if (document.getElementById('mySidenav')) {
+    document.getElementById('mySidenav').style.width = '20%';
+    document.getElementById('body').style.paddingLeft = '20%';
+    document.getElementById('header').style.display = 'none';
+  }
+}
 
-const Twitter_Analysis = 'http://localhost:5000/api/twitter';
+function removeDuplicates(myArr, prop) {
+  return myArr.filter((obj, pos, arr) => {
+    return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+  });
+}
 
 class App extends Component {
   constructor(props) {
@@ -20,27 +30,24 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(CoinData + CoinData_Query)
+    fetch(CoinAPI)
       .then(response => response.json())
-      .then(data => this.setState({ CoinData: data.DISPLAY }));
-    fetch(Twitter_Analysis)
-      .then(res => res.json())
-      .then(json => this.setState({ Analysis: json.express }))
-      .catch(err => console.log(err));
+      .then(data => this.setState({ CoinData: data }));
   }
   render() {
-    const thisData = this.state && this.state.CoinData;
-    console.log(this.state);
+    const coinData = this.state && this.state.CoinData;
+    const uniqueCoins = removeDuplicates(coinData, 'coinName');
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+        <Nav />
+        <header id="header">
+          <h1 className="logo">emoticoin</h1>
+          <i className="material-icons navButton" onClick={openNav}>
+            menu
+          </i>
         </header>
-        <div className="body">
-          {Object.keys(thisData).map(coinData => (
-            <CoinCard {...thisData[coinData].USD} />
-          ))}
+        <div className="body" id="body">
+          {uniqueCoins.map(coin => <CoinCard id={coin._id} {...coin} />)}
         </div>
       </div>
     );
