@@ -45,6 +45,11 @@ $miku: #1fa4ff;
   box-sizing: border-box;
 }
 
+#root {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   background: #01043a;
   font: 14px/20px 'Lato', Arial, sans-serif;
@@ -57,10 +62,22 @@ body {
   flex-wrap: wrap;
 }
 
+a {
+  text-decoration: none;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 h1.logo {
@@ -282,4 +299,273 @@ li#forecast::before {
 }
 li#VR::before {
   content: '\e031';
+}
+
+/* Forecast Page */
+
+@function longshadow($color_a, $color_b, $stepnum, $opacity: 1) {
+  $gradient_steps: null;
+  @for $i from 1 through $stepnum {
+    $weight: (($i - 1) / $stepnum) * 100;
+    $colour_mix: mix($color_b, rgba($color_a, $opacity), $weight);
+    $seperator: null;
+    @if ($i != $stepnum) {
+      $seperator: #{','};
+    }
+    $gradient_steps: append(
+      #{$gradient_steps},
+      #{$i}px #{$i}px $colour_mix $seperator
+    );
+  }
+  @return $gradient_steps;
+}
+
+@mixin easeOut {
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.forecast-card {
+  float: left;
+  position: relative;
+  width: calc(100% * (1 / 4) - 10px - 1px);
+  height: 340px;
+  margin: 0 30px 30px 0;
+  perspective: 1000;
+
+  .card__front {
+    background: radial-gradient(
+      ellipse at center,
+      #39e6cb 0%,
+      #39e6cb 56%,
+      #64d1f0 100%
+    );
+    position: absolute;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 340px;
+  }
+  .card__num {
+    text-shadow: longshadow(darken(#39e6cb, 15%), #39e6cb, 70, 0.8);
+    font-size: 60px;
+    margin: 0 8px 0 0;
+    font-weight: 700;
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .card__name {
+    font-size: 24px;
+    line-height: 0.9;
+    font-weight: 700;
+    color: white;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .card__name > span {
+    font-size: 14px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+}
+
+/* Chart */
+
+.chartCard {
+  background: linear-gradient(-45deg, #5555ff, #9787ff);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 900px;
+  height: 375px;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+/* hide limit values on X axis */
+.chartCard #canvas {
+  margin-left: -30px;
+  margin-right: -30px;
+  width: 960px !important;
+}
+
+.chartCard__about {
+  height: 185px;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.chartCard .chartCard__about h3,
+.chartCard .chartCard__about .lead {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.chartCard .chartCard__about h3 {
+  font-size: 24px;
+  color: #fff;
+}
+
+.chartCard .chartCard__about .chartCard__lead {
+  color: #eee;
+}
+
+.chartData .info {
+  float: left;
+  padding: 10px 30px 10px 0;
+}
+
+.chartCard .info p {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 300;
+}
+
+.legends {
+  padding-top: 20px;
+  overflow: hidden;
+}
+
+.legend {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+}
+
+.legend--this {
+  background-color: #5555ff;
+}
+
+.legend--prev {
+  background-color: #ff55b8;
+}
+
+.chartCard__axis {
+  position: absolute;
+  color: #fff;
+  z-index: 1;
+  text-transform: uppercase;
+  display: flex;
+  width: 100%;
+  bottom: 0;
+}
+
+.chartCard__tick {
+  flex: 1;
+  position: relative;
+  font-size: 11px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+
+.chartCard__axis .chartCard__tick::after {
+  content: '';
+  position: absolute;
+  display: block;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chartCard__axis .chartCard__tick .value {
+  transform: translateY(-240px);
+  opacity: 0;
+  transition: all 0.3s;
+  top: 20px;
+  left: 0;
+  color: #fff;
+  border-radius: 2px;
+  width: 100%;
+  line-height: 20px;
+}
+
+.chartCard__axis .chartCard__tick:hover .value.value--this {
+  transform: translateY(-160px);
+  display: block;
+  opacity: 0.4;
+}
+
+.value.value--this {
+  color: #fff;
+  font-weight: bold;
+}
+
+.day-number {
+  display: block;
+}
+
+.day-name {
+  display: block;
+  opacity: 0.4;
+}
+
+/* Animated background, credits: Manuel Pinto, https://codepen.io/P1N2O/pen/pyBNzX */
+.chartCard {
+  background: linear-gradient(-45deg, #0060ff, #77d4f4, #f086ff, #7f33f8);
+  background-size: 400% 400%;
+  animation: bg 20s infinite;
+}
+
+@keyframes bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Forecast Page */
+.forecastContainer {
+  width: 90%;
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 2%;
+}
+
+.rowTitle {
+  text-align: left;
+  padding-bottom: 2%;
+}
+
+h1.foreCast {
+  color: white;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
+
+h2.foreCast-buyStatus {
+  background: linear-gradient(to right, #f400f1 0%, #f9a4a0 100%);
+  display: inline-block;
+  padding: 0.4em;
+  padding-top: 0.5em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  color: white;
+  border-radius: 0.25rem;
+  margin-top: 0px;
+  font-family: 'Lato', sans-serif;
+}
+
+span.price {
+  background: #01043a;
+  padding: 0px 5px;
+  margin-right: 5px;
+  font-weight: 200;
 }

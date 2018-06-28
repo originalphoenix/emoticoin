@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { Chart } from 'react-chartjs-2';
 import './App.css';
-import CoinCard from './components/Card';
 import Nav from './components/nav';
+import tickerSymbol from './helpers/dict';
+import LeaderBoard from './LeaderBoard';
+import Forecast from './Forecast';
 
 const CoinAPI = 'http://localhost:5000/coins';
 
@@ -22,32 +26,58 @@ function removeDuplicates(myArr, prop) {
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       CoinData: [],
       Analysis: []
     };
   }
-
   componentDidMount() {
     fetch(CoinAPI)
       .then(response => response.json())
       .then(data => this.setState({ CoinData: data }));
   }
   render() {
-    const coinData = this.state && this.state.CoinData;
+    const coinData = this.state.CoinData;
+    const coinHistory = this.state.CoinHistory;
     const uniqueCoins = removeDuplicates(coinData, 'coinName');
     return (
       <div className="App">
         <Nav />
         <header id="header">
-          <h1 className="logo">emoticoin</h1>
+          <a href="/">
+            <h1 className="logo">emoticoin</h1>
+          </a>
           <i className="material-icons navButton" onClick={openNav}>
             menu
           </i>
         </header>
         <div className="body" id="body">
-          {uniqueCoins.map(coin => <CoinCard id={coin._id} {...coin} />)}
+          <BrowserRouter>
+            <div className="app">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  component={props =>
+                    uniqueCoins ? (
+                      <LeaderBoard coinData={uniqueCoins} {...props} />
+                    ) : (
+                      <h1>loading</h1>
+                    )
+                  }
+                />
+                <Route
+                  path="/forecast/:coinName"
+                  component={props => {
+                    const selectedCoin = this.state.CoinData.find(
+                      coin => props.match.params.coinName === coin.coinName
+                    );
+                    return <Forecast coin={selectedCoin} {...props} />;
+                  }}
+                />
+              </Switch>
+            </div>
+          </BrowserRouter>
         </div>
       </div>
     );

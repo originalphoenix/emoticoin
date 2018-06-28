@@ -6,6 +6,10 @@
 *:after {
   box-sizing: border-box; }
 
+#root {
+  width: 100%;
+  height: 100%; }
+
 body {
   background: #01043a;
   font: 14px/20px 'Lato', Arial, sans-serif;
@@ -17,10 +21,20 @@ body {
   justify-content: space-evenly;
   flex-wrap: wrap; }
 
+a {
+  text-decoration: none; }
+
 header {
   display: flex;
   justify-content: space-between;
-  padding: 10px; }
+  padding: 10px;
+  width: 90%;
+  margin: 0 auto; }
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; }
 
 h1.logo {
   color: #1fa4ff;
@@ -248,3 +262,206 @@ li#forecast::before {
 
 li#VR::before {
   content: '\e031'; }
+
+/* Forecast Page */
+.forecast-card {
+  float: left;
+  position: relative;
+  width: calc(100% * (1 / 4) - 10px - 1px);
+  height: 340px;
+  margin: 0 30px 30px 0;
+  perspective: 1000; }
+  .forecast-card .card__front {
+    background: radial-gradient(ellipse at center, #39e6cb 0%, #39e6cb 56%, #64d1f0 100%);
+    position: absolute;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 340px; }
+  .forecast-card .card__num {
+    text-shadow:  1px 1px rgba(24, 187, 161, 0.8) , 2px 2px rgba(24, 188, 162, 0.802857) , 3px 3px rgba(25, 189, 163, 0.805714) , 4px 4px rgba(26, 190, 164, 0.808571) , 5px 5px rgba(26, 190, 165, 0.811429) , 6px 6px rgba(27, 191, 166, 0.814286) , 7px 7px rgba(28, 192, 167, 0.817143) , 8px 8px rgba(28, 193, 167, 0.82) , 9px 9px rgba(29, 194, 168, 0.822857) , 10px 10px rgba(30, 195, 169, 0.825714) , 11px 11px rgba(30, 196, 170, 0.828571) , 12px 12px rgba(31, 196, 171, 0.831429) , 13px 13px rgba(32, 197, 171, 0.834286) , 14px 14px rgba(32, 198, 172, 0.837143) , 15px 15px rgba(33, 199, 173, 0.84) , 16px 16px rgba(33, 199, 173, 0.842857) , 17px 17px rgba(34, 200, 174, 0.845714) , 18px 18px rgba(34, 201, 175, 0.848571) , 19px 19px rgba(35, 202, 176, 0.851429) , 20px 20px rgba(36, 202, 176, 0.854286) , 21px 21px rgba(36, 203, 177, 0.857143) , 22px 22px rgba(37, 204, 178, 0.86) , 23px 23px rgba(37, 204, 178, 0.862857) , 24px 24px rgba(38, 205, 179, 0.865714) , 25px 25px rgba(38, 206, 180, 0.868571) , 26px 26px rgba(39, 206, 180, 0.871429) , 27px 27px rgba(39, 207, 181, 0.874286) , 28px 28px rgba(40, 208, 182, 0.877143) , 29px 29px rgba(40, 208, 182, 0.88) , 30px 30px rgba(41, 209, 183, 0.882857) , 31px 31px rgba(41, 210, 183, 0.885714) , 32px 32px rgba(42, 210, 184, 0.888571) , 33px 33px rgba(42, 211, 185, 0.891429) , 34px 34px rgba(43, 212, 185, 0.894286) , 35px 35px rgba(43, 212, 186, 0.897143) , 36px 36px rgba(44, 213, 186, 0.9) , 37px 37px rgba(44, 213, 187, 0.902857) , 38px 38px rgba(45, 214, 187, 0.905714) , 39px 39px rgba(45, 215, 188, 0.908571) , 40px 40px rgba(45, 215, 189, 0.911429) , 41px 41px rgba(46, 216, 189, 0.914286) , 42px 42px rgba(46, 216, 190, 0.917143) , 43px 43px rgba(47, 217, 190, 0.92) , 44px 44px rgba(47, 217, 191, 0.922857) , 45px 45px rgba(48, 218, 191, 0.925714) , 46px 46px rgba(48, 218, 192, 0.928571) , 47px 47px rgba(48, 219, 192, 0.931429) , 48px 48px rgba(49, 219, 193, 0.934286) , 49px 49px rgba(49, 220, 193, 0.937143) , 50px 50px rgba(50, 220, 194, 0.94) , 51px 51px rgba(50, 221, 194, 0.942857) , 52px 52px rgba(50, 221, 195, 0.945714) , 53px 53px rgba(51, 222, 195, 0.948571) , 54px 54px rgba(51, 222, 196, 0.951429) , 55px 55px rgba(51, 223, 196, 0.954286) , 56px 56px rgba(52, 223, 197, 0.957143) , 57px 57px rgba(52, 224, 197, 0.96) , 58px 58px rgba(53, 224, 198, 0.962857) , 59px 59px rgba(53, 225, 198, 0.965714) , 60px 60px rgba(53, 225, 198, 0.968571) , 61px 61px rgba(54, 226, 199, 0.971429) , 62px 62px rgba(54, 226, 199, 0.974286) , 63px 63px rgba(54, 227, 200, 0.977143) , 64px 64px rgba(55, 227, 200, 0.98) , 65px 65px rgba(55, 227, 201, 0.982857) , 66px 66px rgba(55, 228, 201, 0.985714) , 67px 67px rgba(56, 228, 201, 0.988571) , 68px 68px rgba(56, 229, 202, 0.991429) , 69px 69px rgba(56, 229, 202, 0.994286) , 70px 70px rgba(57, 230, 203, 0.997143);
+    font-size: 60px;
+    margin: 0 8px 0 0;
+    font-weight: 700;
+    color: white;
+    font-family: 'Share Tech Mono', monospace; }
+  .forecast-card .card__name {
+    font-size: 24px;
+    line-height: 0.9;
+    font-weight: 700;
+    color: white;
+    font-family: 'Lato', sans-serif; }
+  .forecast-card .card__name > span {
+    font-size: 14px;
+    font-family: 'Share Tech Mono', monospace; }
+
+/* Chart */
+.chartCard {
+  background: linear-gradient(-45deg, #5555ff, #9787ff);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 900px;
+  height: 375px;
+  border-radius: 0px;
+  overflow: hidden; }
+
+/* hide limit values on X axis */
+.chartCard #canvas {
+  margin-left: -30px;
+  margin-right: -30px;
+  width: 960px !important; }
+
+.chartCard__about {
+  height: 185px;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: left; }
+
+.chartCard .chartCard__about h3,
+.chartCard .chartCard__about .lead {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 400; }
+
+.chartCard .chartCard__about h3 {
+  font-size: 24px;
+  color: #fff; }
+
+.chartCard .chartCard__about .chartCard__lead {
+  color: #eee; }
+
+.chartData .info {
+  float: left;
+  padding: 10px 30px 10px 0; }
+
+.chartCard .info p {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 300; }
+
+.legends {
+  padding-top: 20px;
+  overflow: hidden; }
+
+.legend {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 50%; }
+
+.legend--this {
+  background-color: #5555ff; }
+
+.legend--prev {
+  background-color: #ff55b8; }
+
+.chartCard__axis {
+  position: absolute;
+  color: #fff;
+  z-index: 1;
+  text-transform: uppercase;
+  display: flex;
+  width: 100%;
+  bottom: 0; }
+
+.chartCard__tick {
+  flex: 1;
+  position: relative;
+  font-size: 11px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px; }
+
+.chartCard__axis .chartCard__tick::after {
+  content: '';
+  position: absolute;
+  display: block;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2); }
+
+.chartCard__axis .chartCard__tick .value {
+  transform: translateY(-240px);
+  opacity: 0;
+  transition: all 0.3s;
+  top: 20px;
+  left: 0;
+  color: #fff;
+  border-radius: 2px;
+  width: 100%;
+  line-height: 20px; }
+
+.chartCard__axis .chartCard__tick:hover .value.value--this {
+  transform: translateY(-160px);
+  display: block;
+  opacity: 0.4; }
+
+.value.value--this {
+  color: #fff;
+  font-weight: bold; }
+
+.day-number {
+  display: block; }
+
+.day-name {
+  display: block;
+  opacity: 0.4; }
+
+/* Animated background, credits: Manuel Pinto, https://codepen.io/P1N2O/pen/pyBNzX */
+.chartCard {
+  background: linear-gradient(-45deg, #0060ff, #77d4f4, #f086ff, #7f33f8);
+  background-size: 400% 400%;
+  animation: bg 20s infinite; }
+
+@keyframes bg {
+  0% {
+    background-position: 0% 50%; }
+  50% {
+    background-position: 100% 50%; }
+  100% {
+    background-position: 0% 50%; } }
+
+/* Forecast Page */
+.forecastContainer {
+  width: 90%;
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 2%; }
+
+.rowTitle {
+  text-align: left;
+  padding-bottom: 2%; }
+
+h1.foreCast {
+  color: white;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300; }
+
+h2.foreCast-buyStatus {
+  background: linear-gradient(to right, #f400f1 0%, #f9a4a0 100%);
+  display: inline-block;
+  padding: 0.4em;
+  padding-top: 0.5em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  color: white;
+  border-radius: 0.25rem;
+  margin-top: 0px;
+  font-family: 'Lato', sans-serif; }
+
+span.price {
+  background: #01043a;
+  padding: 0px 5px;
+  margin-right: 5px;
+  font-weight: 200; }
